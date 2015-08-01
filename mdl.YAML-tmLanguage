@@ -1,0 +1,187 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+# Author: Paul Arden
+name: NVIDIA Material Definition Language (MDL)
+scopeName: source.mdl
+fileTypes: [mdl]
+uuid: 63fe3467-a83d-42b4-9a13-4ef861280402
+firstLineMatch: ^\s*mdl\s+[0-9]*[.][0-9]*;.*
+
+patterns:
+- include: '#comment_block'
+- include: '#comment_line'
+- include: '#mdl_version'
+- include: '#import'
+- include: '#using'
+- include: '#types'
+- include: '#string_double'
+- include: '#string_single'
+- include: '#function_call'
+- include: '#function'
+- include: '#block'
+- include: '#annotation'
+- include: '#constants'
+- include: '#numeric'
+- include: '#named_parameter'
+- include: '#modifier'
+- include: '#intrinsics'
+- include: '#base'
+
+- comment: MDL Illegal Words (reserved but not usable)
+  match: \b(auto|catch|char|class|const|cast|delete|dynamic_cast|explicit|extern|external|foreach|friend|goto|graph|half|half2|half2x2|half2x3|half3|half3x2|half3x3|half3x4|half4|namespace|shader|half4x3|native|short|half4x4|new|signed|half4x2|operator|sizeof|half2x4|out|static|inline|phenomenon|static|cast|inout|private|technique|lambda|protected|template|long|public|this|module|reinterpret_cast|throw|mutable|sampler|try|typeid|typename|union|unsigned|virtual|void|volatile|wchar_t)\b
+  name: invalid.illegal.mdl
+
+repository:
+  mdl_version:
+    match: '^\s*(mdl)\s+([0-9]*[.][0-9]*)\s*;'
+    captures:
+      '1' : { name : keyword.other.mdl }
+      '2' : { name : constant.numeric.mdl }
+  import:
+    match: '(import)\s+((?:\s*(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*)*\s*(?:,?))+);'
+    captures:
+      '0' : { name: meta.preprocessor.mdl.import }
+      '1' : { name: keyword.control.import.include.mdl }
+      '2' : { name: string.unquoted.import.mdl }
+  using:
+    match: '(export\s+)?(using)\s+((?:\s*(?:::)?[A-Za-z]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z]+[A-Za-z0-9_]*)*)+)\s+(import)\s+((?:\s*(?:\*|[A-Za-z]+[A-Za-z0-9_]*)\s*,?)+);'
+    captures:
+      '0' : { name: meta.preprocessor.mdl.using }
+      '1' : { name: storage.modifier.mdl }
+      '2' : { name: keyword.control.import.using.mdl }
+      '3' : { name: string.unquoted.import.mdl}
+      '4' : { name: keyword.control.import.include.mdl}
+      '5' : { name: string.unquoted.import.mdl}
+  annotation:
+    begin: '\[\['
+    beginCaptures:
+      '0' : { name: punctuation.definition.comment.begin.annotation.mdl }
+    end: '\]\]'
+    endCaptures:
+      '0' : { name: punctuation.definition.comment.end.annotation.mdl }
+    name: comment.block.documentation.mdl
+  modifier:
+    match: \b(const|varying|uniform|typedef|export)\b
+    name: storage.modifier.mdl
+  types:
+    match: \b(bool|bool2|bool3|bool4|double|double2|double2x2|double2x3|double3|double3x2|double3x3|double3x4|double4|double4x3|double4x4|double4x2|double2x4|color|float|float2|float2x2|float2x3|float3|float3x2|float3x3|float3x4|float4|float4x3|float4x4|float4x2|float2x4|int|int2|int3|int4|texture_2d|texture_3d|texture_cube|texture_ptex|string|struct|bsdf|bsdf_measurement|intensity_mode|light_profile|material|material_emission|material_geometry|material_surface|material_volume|edf|vdf|enum)\b
+    name: storage.type.mdl
+  constants:
+    match: \b(true|false|intensity_power|intensity_radiant_exitance|gamma_default|gamma_linear|gamma_srgb|wrap_clamp|wrap_repeat|wrap_mirrored_repeat|wrap_clip|scatter_reflect|scatter_transmit|scatter_reflect_transmit|FLOAT_MIN|FLOAT_MAX|DOUBLE_MIN|DOUBLE_MAX|INT_MIN|INT_MAX|WAVELENGTH_MIN|WAVELENGTH_MAX|WAVELENGTH_BASE_MAX|PI|TWO_PI|HALF_PI)\b
+    name: constant.language.mdl
+  string_double:
+    begin: '"'
+    beginCaptures:
+      '0' : { name: punctuation.definition.string.begin.mdl }
+    end: '"'
+    endCaptures:
+      '0' : { name: punctuation.definition.string.end.mdl }
+    name: string.quoted.double.mdl
+  string_single:
+    begin: "'"
+    beginCaptures:
+      '0' : { name: punctuation.definition.string.begin.mdl }
+    end: "'"
+    endCaptures:
+      '0' : { name: punctuation.definition.string.end.mdl }
+    name: string.quoted.single.mdl
+  intrinsics:
+    match: \b(abs|acos|all|any|asin|atan|atan2|average|blackbody|ceil|clamp|cos|cross|degrees|distance|dot|eval_at_wavelength|exp|exp2|floor|fmod|frac|isnan|isfinite|length|lerp|log|log2|luminance|max|max_value|max_value_wavelength|min|min_value|min_value_wavelength|modf|normalize|pow|radians|round|rsqrt|saturate|sign|sin|sincos|smoothstep|sqrt|step|tan|transpose|width|height|depth|texture_isvalid|lookup_*|texel_*|diffuse_reflection_bsdf|diffuse_transmission_bsdf|specular_bsdf|simple_glossy_bsdf|backscattering_glossy_reflection_bsdf|bsdf_measurement_isvalid|measured_bsdf|light_profile_power|light_profile_maximum|light_profile_isvalid|diffuse_edf|spot_edf|measured_edf|anisotropic_vdf|tint|thin_film|directional_factor|measured_curve_factor|bsdf_component|edf_component|vdf_component|normalized_mix|clamped_mix|weighted_layer|fresnel_layer|custom_curve_layer|measured_curve_layer|soft_range|hard_range|display_name|in_group|hidden|description|author|contributor|copyright_notice|created|modified|version_number|key_words|unused|position|normal|geometry_normal|motion|texture_space_max|texture_coordinate|texture_tangent_u|texture_tangent_v|tangent_space|geometry_tangent_u|geometry_tangent_v|object_id|direction|animation_time|wavelength_base|coordinate_space|transform|transform_point|transform_vector|transform_normal|transform_scale|meters_per_scene_unit|scene_units_per_meter|rounded_corner_normal)\b
+    name: support.function.mdl
+  base:
+    match: \b(abbe_number_ior|anisotropy_return|color_layer_mode|anisotropy_conversion|color_layer|gradient_interpolation_mode|architectural_gloss_to_rough|texture_coordinate_info|gradient_mode|blend_color_layers|texture_return|mono_mode|checker_bump_texture|projection_mode|checker_texture|texture_coordinate_system|coordinate_projection|coordinate_source|environment_spherical|file_bump_texture|file_texture|flake_noise_bump_texture|flake_noise_texture|flow_noise_bump_texture|flow_noise_texture|gloss_to_rough|gradient3_bump_texture|gradient3_recolor|gradient3_texture|perez_sun_and_sky|perlin_noise_bump_texture|perlin_noise_texture|rotation_translation_scale|sellmeier_coefficients_ior|sun_and_sky|tangent_space_normal_texture|tile_bump_texture|tile_texture|transform_coordinate|worley_noise_bump_texture|worley_noise_texture|gamma_mode|wrap_mode|scatter_mode)\b
+    name: support.variable.mdl
+  numeric:
+    match: |-
+      (?x)\b
+      (  (?i:
+            0x ( \h+    ( ' \h+    )* )?
+         |  0b ( [0-1]+ ( ' [0-1]+ )* )?
+         |  0  ( [0-7]+ ( ' [0-7]+ )* )
+         |     ( [0-9]+ ( ' [0-9]+ )* )
+         )
+         ( ([uUfF] | u?ll? | U?LL?)\b | (?<inc>') | \b )
+      |  ( [0-9]+ ( ' [0-9]+ )* )?
+         (?i:
+            \. ( [0-9]+ ( ' [0-9]+ )* ) E(\+|-)? ( [0-9]+ ( ' [0-9]+ )* )
+         |  \. ( [0-9]+ ( ' [0-9]+ )* )
+         |  E(\+|-)? ( [0-9]+ ( ' [0-9]+ )* )
+         )
+         ( (?<inc>') | \b )
+      )
+    name: constant.numeric.mdl
+  named_parameter:
+    match: '[A-Za-z]+[A-Za-z0-9_]*:[^:]'
+    name: variable.parameter.named.mdl
+  function_call:
+    match: '(?x) (?: (?= \s )  (?:(?>=else|new|return) | (?>!\w)) (\s+))? (\b (?!(while|for|do|if|else|switch|catch|enumerate|return|sizeof|[cr]?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++ ) \s*(\()'
+    captures:
+      '2' : { name: support.function.any-method.mdl }
+    name: meta.function-call.mdl
+  function:
+    begin: '\s*([A-Za-z]+[A-Za-z0-9_]*)\s*(\()'
+    beginCaptures:
+      '1' : { name: entity.name.function.mdl }
+      '2' : { name: meta.parens.mdl }
+    end: '(\))'
+    endCaptures:
+      '0' : { name: meta.parens.mdl }
+    name: meta.function.mdl
+    patterns:
+    - include: $self
+    - include: '#annotation'
+    - include: '#types'
+    - include: '#constants'
+    - include: '#function_call'
+    - include: '#function'
+    - include: '#string_double'
+    - include: '#string_single'
+    - include: '#control'
+    - include: '#constants'
+    - include: '#numeric'
+    - include: '#named_parameter'
+    - include: '#modifier'
+    - include: '#intrinsics'
+    - include: '#base'
+  control:
+    match: \b(break|case|continue|do|else|for|if|return|while|switch|default)\b
+    name: keyword.control.mdl
+  constants:
+    match: \b(true|false|intensity_power|intensity_radiant_exitance|gamma_default|gamma_linear|gamma_srgb|wrap_clamp|wrap_repeat|wrap_mirrored_repeat|wrap_clip|scatter_reflect|scatter_transmit|scatter_reflect_transmit|FLOAT_MIN|FLOAT_MAX|DOUBLE_MIN|DOUBLE_MAX|INT_MIN|INT_MAX|WAVELENGTH_MIN|WAVELENGTH_MAX|WAVELENGTH_BASE_MAX|PI|TWO_PI|HALF_PI)\b
+    name: constant.language.mdl
+  block:
+    begin: '\{'
+    beginCaptures:
+      '0' : { name : punctuation.section.block.begin.mdl }
+    end: '\}'
+    endCaptures:
+      '0' : { name : punctuation.section.block.end.mdl }
+    name: meta.block.mdl
+    patterns:
+    - include: '#annotation'
+    - include: '#types'
+    - include: '#constants'
+    - include: '#function_call'
+    - include: '#function'
+    - include: '#string_double'
+    - include: '#string_single'
+    - include: '#control'
+    - include: '#constants'
+    - include: '#numeric'
+    - include: '#named_parameter'
+    - include: '#modifier'
+    - include: '#intrinsics'
+    - include: '#base'
+  comment_block:
+    begin: '\/\*'
+    beginCaptures:
+      '0' : { name : punctuation.definition.comment.begin.mdl }
+    end: '\*\/'
+    endCaptures:
+      '0' : { name : punctuation.definition.comment.end.mdl }
+    name: comment.block.mdl
+  comment_line:
+    begin: '\/\/'
+    beginCaptures:
+      '0' : { name : punctuation.definition.comment.mdl }
+    end: '\n'
+    name: comment.line.double-slash.mdl
