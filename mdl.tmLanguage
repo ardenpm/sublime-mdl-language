@@ -155,6 +155,14 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#comment_block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comment_line</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#annotation</string>
 				</dict>
 				<dict>
@@ -301,6 +309,14 @@
 				<dict>
 					<key>include</key>
 					<string>$self</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comment_block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comment_line</string>
 				</dict>
 				<dict>
 					<key>include</key>
