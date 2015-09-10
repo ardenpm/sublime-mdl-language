@@ -37,13 +37,13 @@ repository:
       '1' : { name : keyword.other.mdl }
       '2' : { name : constant.numeric.mdl }
   import:
-    match: '(import)\s+((?:\s*(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*)*\s*(?:,?))+);'
+    match: '(import)\s+((?:(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z\*]+[A-Za-z0-9_]*)*\s*(?:,?))+);'
     captures:
       '0' : { name: meta.preprocessor.mdl.import }
       '1' : { name: keyword.control.import.include.mdl }
       '2' : { name: string.unquoted.import.mdl }
   using:
-    match: '(export\s+)?(using)\s+((?:\s*(?:::)?[A-Za-z]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z]+[A-Za-z0-9_]*)*)+)\s+(import)\s+((?:\s*(?:\*|[A-Za-z]+[A-Za-z0-9_]*)\s*,?)+);'
+    match: '(export\s+)?(using)\s+((?:(?:::)?[A-Za-z]+[A-Za-z0-9_]*(?:(?:::)?[A-Za-z]+[A-Za-z0-9_]*)*)+)\s+(import)\s+((?:\s*(?:\*|[A-Za-z]+[A-Za-z0-9_]*)\s*,?)+);'
     captures:
       '0' : { name: meta.preprocessor.mdl.using }
       '1' : { name: storage.modifier.mdl }
@@ -85,7 +85,7 @@ repository:
       '0' : { name: punctuation.definition.string.end.mdl }
     name: string.quoted.single.mdl
   intrinsics:
-    match: \b(abs|acos|all|any|asin|atan|atan2|average|blackbody|ceil|clamp|cos|cross|degrees|distance|dot|eval_at_wavelength|exp|exp2|floor|fmod|frac|isnan|isfinite|length|lerp|log|log2|luminance|max|max_value|max_value_wavelength|min|min_value|min_value_wavelength|modf|normalize|pow|radians|round|rsqrt|saturate|sign|sin|sincos|smoothstep|sqrt|step|tan|transpose|width|height|depth|texture_isvalid|lookup_*|texel_*|diffuse_reflection_bsdf|diffuse_transmission_bsdf|specular_bsdf|simple_glossy_bsdf|backscattering_glossy_reflection_bsdf|bsdf_measurement_isvalid|measured_bsdf|light_profile_power|light_profile_maximum|light_profile_isvalid|diffuse_edf|spot_edf|measured_edf|anisotropic_vdf|tint|thin_film|directional_factor|measured_curve_factor|bsdf_component|edf_component|vdf_component|normalized_mix|clamped_mix|weighted_layer|fresnel_layer|custom_curve_layer|measured_curve_layer|soft_range|hard_range|display_name|in_group|hidden|description|author|contributor|copyright_notice|created|modified|version_number|key_words|unused|position|normal|geometry_normal|motion|texture_space_max|texture_coordinate|texture_tangent_u|texture_tangent_v|tangent_space|geometry_tangent_u|geometry_tangent_v|object_id|direction|animation_time|wavelength_base|coordinate_space|transform|transform_point|transform_vector|transform_normal|transform_scale|meters_per_scene_unit|scene_units_per_meter|rounded_corner_normal)\b
+    match: \b(abs|acos|all|any|asin|atan|atan2|average|blackbody|ceil|clamp|cos|cross|degrees|distance|dot|eval_at_wavelength|exp|exp2|floor|fmod|frac|isnan|isfinite|length|lerp|log|log2|luminance|max|max_value|max_value_wavelength|min|min_value|min_value_wavelength|modf|normalize|pow|radians|round|rsqrt|saturate|sign|sin|sincos|smoothstep|sqrt|step|tan|transpose|width|height|depth|texture_isvalid|lookup_*|texel_*|diffuse_reflection_bsdf|diffuse_transmission_bsdf|specular_bsdf|simple_glossy_bsdf|backscattering_glossy_reflection_bsdf|bsdf_measurement_isvalid|measured_bsdf|light_profile_power|light_profile_maximum|light_profile_isvalid|diffuse_edf|spot_edf|measured_edf|anisotropic_vdf|tint|mono|thin_film|directional_factor|measured_curve_factor|bsdf_component|edf_component|vdf_component|normalized_mix|clamped_mix|weighted_layer|fresnel_layer|custom_curve_layer|measured_curve_layer|soft_range|hard_range|display_name|in_group|hidden|description|author|contributor|copyright_notice|created|modified|version_number|key_words|unused|position|normal|geometry_normal|motion|texture_space_max|texture_coordinate|texture_tangent_u|texture_tangent_v|tangent_space|geometry_tangent_u|geometry_tangent_v|object_id|direction|animation_time|wavelength_base|coordinate_space|transform|transform_point|transform_vector|transform_normal|transform_scale|meters_per_scene_unit|scene_units_per_meter|rounded_corner_normal)\b
     name: support.function.mdl
   base:
     match: \b(abbe_number_ior|anisotropy_return|color_layer_mode|anisotropy_conversion|color_layer|gradient_interpolation_mode|architectural_gloss_to_rough|texture_coordinate_info|gradient_mode|blend_color_layers|texture_return|mono_mode|checker_bump_texture|projection_mode|checker_texture|texture_coordinate_system|coordinate_projection|coordinate_source|environment_spherical|file_bump_texture|file_texture|flake_noise_bump_texture|flake_noise_texture|flow_noise_bump_texture|flow_noise_texture|gloss_to_rough|gradient3_bump_texture|gradient3_recolor|gradient3_texture|perez_sun_and_sky|perlin_noise_bump_texture|perlin_noise_texture|rotation_translation_scale|sellmeier_coefficients_ior|sun_and_sky|tangent_space_normal_texture|tile_bump_texture|tile_texture|transform_coordinate|worley_noise_bump_texture|worley_noise_texture|gamma_mode|wrap_mode|scatter_mode)\b
